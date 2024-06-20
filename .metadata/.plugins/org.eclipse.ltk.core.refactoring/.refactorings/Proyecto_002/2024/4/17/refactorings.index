@@ -1,0 +1,60 @@
+1713798433779	Delete element
+1713798816691	Move compilation units
+1713798845262	Move compilation units
+1713798856971	Rename package 'default_package'
+1713801506182	Delete elements
+1713801523397	Rename package 'implementacion'
+1713803531423	Rename type 'Circulo'
+1713803539198	Rename type 'Cuadrado'
+1713803553158	Rename type 'Triangulo'
+1713875715304	Delete element
+1713883595145	Rename type 'NaveAliada'
+1713883679317	Rename type 'NaveEnemiga'
+1713884933031	Delete element
+1713887849077	Delete element
+1713892003492	Rename type 'MainGlaga'
+1713917432528	Delete elements
+1713917439423	Delete element
+1713923112030	Delete element
+1713923155091	Delete element
+1713923257355	Delete element
+1713923312283	Delete element
+1713923337848	Delete element
+1713923365154	Delete element
+1714328940570	Rename type 'BalaAliada'
+1714329018904	Rename type 'BalaEnemiga'
+1714329029163	Rename type 'Juego'
+1714329046469	Rename type 'NaveAliada'
+1714329058572	Rename type 'NaveEnemiga'
+1714329073262	Rename type 'IDibujable'
+1714329097884	Rename type 'IDisparar'
+1714329111534	Rename type 'IMorir'
+1714329119573	Rename type 'IMover'
+1714329141897	Rename method 'morir'
+1714329158895	Rename method 'dibujar'
+1714329169536	Rename method 'mover'
+1714329179160	Rename method 'disparar'
+1714329215581	Rename field 'ancho'
+1714329230322	Rename field 'alto'
+1714329251508	Rename field 'movimientos'
+1714329264404	Rename field 'velocidadY'
+1714329285102	Rename field 'disparando'
+1714329324783	Rename local variable 'ancho'
+1714329333252	Rename local variable 'alto'
+1714329350271	Rename field 'balas'
+1714329441219	Rename field 'ancho'
+1714329446061	Rename local variable 'ancho'
+1714329461409	Rename field 'ancho'
+1714329467829	Rename local variable 'ancho'
+1714329477040	Rename field 'ancho'
+1714329483838	Rename local variable 'ancho'
+1714329498918	Rename field 'alto'
+1714329504700	Rename local variable 'alto'
+1714329525204	Rename field 'alto'
+1714329531496	Rename local variable 'alto'
+1714329539695	Rename field 'alto'
+1714329545313	Rename local variable 'alto'
+1714329559214	Rename field 'velocidadY'
+1714329587852	Rename method 'getAncho'
+1714329607282	Rename method 'getAlto'
+1714329661272	Rename field 'velocidadY'
