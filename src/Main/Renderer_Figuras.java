@@ -3,6 +3,8 @@ package Main;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
 
@@ -17,20 +19,11 @@ public class Renderer_Figuras extends JFrame {
         setSize(300, 200);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        // Crear botones
-        JButton triangleButton = createButton("Triángulo", e -> setShape(Shape.TRIANGLE));
-        JButton squareButton = createButton("Cuadrado", e -> setShape(Shape.SQUARE));
-        JButton circleButton = createButton("Círculo", e -> setShape(Shape.CIRCLE));
+        // Crear botones y panel de botones usando una colección y lambdas
+        List<String> buttonLabels = Arrays.asList("Triángulo", "Cuadrado", "Círculo");
+        List<Shape> shapes = Arrays.asList(Shape.TRIANGLE, Shape.SQUARE, Shape.CIRCLE);
 
-        // Crear un panel para los botones y organizarlos verticalmente con espacios entre ellos
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-        buttonPanel.add(Box.createVerticalStrut(15));
-        buttonPanel.add(triangleButton);
-        buttonPanel.add(Box.createVerticalStrut(15));
-        buttonPanel.add(squareButton);
-        buttonPanel.add(Box.createVerticalStrut(15));
-        buttonPanel.add(circleButton);
+        JPanel buttonPanel = createButtonPanel(buttonLabels, shapes);
 
         // Crear un panel para las figuras y centrarlo horizontalmente
         JPanel shapePanel = new JPanel() {
@@ -39,16 +32,9 @@ public class Renderer_Figuras extends JFrame {
                 super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g;
 
-                switch (currentShape) {
-                    case TRIANGLE:
-                        drawTriangle(g2d);
-                        break;
-                    case SQUARE:
-                        drawSquare(g2d);
-                        break;
-                    case CIRCLE:
-                        drawCircle(g2d);
-                        break;
+                Consumer<Graphics2D> drawAction = getDrawAction(currentShape);
+                if (drawAction != null) {
+                    drawAction.accept(g2d);
                 }
             }
         };
@@ -61,6 +47,20 @@ public class Renderer_Figuras extends JFrame {
         setVisible(true);
     }
 
+    private JPanel createButtonPanel(List<String> labels, List<Shape> shapes) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        for (int i = 0; i < labels.size(); i++) {
+            String label = labels.get(i);
+            Shape shape = shapes.get(i);
+            panel.add(Box.createVerticalStrut(15));
+            panel.add(createButton(label, e -> setShape(shape)));
+        }
+
+        return panel;
+    }
+
     private JButton createButton(String text, Consumer<ActionEvent> action) {
         JButton button = new JButton(text);
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -71,6 +71,19 @@ public class Renderer_Figuras extends JFrame {
     private void setShape(Shape shape) {
         currentShape = shape;
         repaint();
+    }
+
+    private Consumer<Graphics2D> getDrawAction(Shape shape) {
+        switch (shape) {
+            case TRIANGLE:
+                return this::drawTriangle;
+            case SQUARE:
+                return this::drawSquare;
+            case CIRCLE:
+                return this::drawCircle;
+            default:
+                return null;
+        }
     }
 
     private void drawTriangle(Graphics2D g2d) {

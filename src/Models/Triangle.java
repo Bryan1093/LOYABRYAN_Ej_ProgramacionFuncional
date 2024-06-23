@@ -6,6 +6,8 @@ import Interfaces.Drawable;
 
 import java.awt.*;
 import java.util.Random;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public class Triangle implements Drawable {
 
@@ -14,9 +16,9 @@ public class Triangle implements Drawable {
 
     private static final Random random = new Random();
 
-    private Color getRandomColor() {
-        return new Color(random.nextFloat(), random.nextFloat(), random.nextFloat());
-    }
+    // Funciones de orden superior para generar colores aleatorios
+    private Supplier<Float> randomColor = () -> random.nextFloat();
+    private Supplier<Color> randomColorSupplier = () -> new Color(randomColor.get(), randomColor.get(), randomColor.get());
 
     // Constructor que acepta un GLAutoDrawable como argumento
     public Triangle(GLAutoDrawable drawable) {
@@ -24,13 +26,14 @@ public class Triangle implements Drawable {
         this.dibuixarTriangle = true;
     }
 
+    @Override
     public void draw() {
         final GL2 gl = drawable.getGL().getGL2();
 
         if (dibuixarTriangle) {
             gl.glBegin(GL2.GL_TRIANGLES);
             // Colores aleatorios
-            Color color = getRandomColor();
+            Color color = randomColorSupplier.get();
             gl.glColor3f(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f);
 
             // Definir los vértices del triángulo
@@ -40,18 +43,11 @@ public class Triangle implements Drawable {
                     {0.8f, -0.7f} // Vértice inferior derecho
             };
 
-            // Usar un lambda para iterar sobre los vértices
-            for (float[] vertex : vertices) {
-                gl.glVertex2f(vertex[0], vertex[1]);
-            }
+            // Usar Streams y lambdas para iterar sobre los vértices
+            Stream.of(vertices).forEach(vertex -> gl.glVertex2f(vertex[0], vertex[1]));
+
             gl.glEnd();
         }
-    }
-
-
-    // Generar un valor aleatorio para el color
-    private float randomColor() {
-        return (float) Math.random();
     }
 
     public void limpiarDibujo(GLAutoDrawable drawable) {

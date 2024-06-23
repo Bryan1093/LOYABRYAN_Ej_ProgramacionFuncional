@@ -1,8 +1,10 @@
 package Models;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -14,13 +16,9 @@ public class Quadrat implements Drawable {
 
     private static final Random random = new Random();
 
-    private Color getRandomColor() {
-        return new Color(random.nextFloat(), random.nextFloat(), random.nextFloat());
-    }
-
-
     // Funciones de orden superior para generar colores aleatorios
     private Supplier<Float> randomColor = () -> random.nextFloat();
+    private Supplier<Color> randomColorSupplier = () -> new Color(randomColor.get(), randomColor.get(), randomColor.get());
 
     // Constructor que acepta un GLAutoDrawable como argumento
     public Quadrat(GLAutoDrawable drawable) {
@@ -34,7 +32,9 @@ public class Quadrat implements Drawable {
 
         if (dibuixarQuadrat) {
             gl.glBegin(GL2.GL_QUADS); // Dibujar el cuadrado
-            gl.glColor3f(randomColor.get(), randomColor.get(), randomColor.get());
+
+            Color color = randomColorSupplier.get();
+            gl.glColor3f(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f);
 
             // Definir los vértices del cuadrado
             float[][] vertices = {
@@ -44,10 +44,8 @@ public class Quadrat implements Drawable {
                     {-0.5f, -0.5f} // Vértice inferior izquierdo
             };
 
-            // Usar un lambda para iterar sobre los vértices
-            for (float[] vertex : vertices) {
-                gl.glVertex2f(vertex[0], vertex[1]);
-            }
+            // Usar Streams y lambdas para iterar sobre los vértices
+            Stream.of(vertices).forEach(vertex -> gl.glVertex2f(vertex[0], vertex[1]));
 
             gl.glEnd();
         }

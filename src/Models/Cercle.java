@@ -1,10 +1,8 @@
 package Models;
 
 import java.awt.*;
-import java.util.List;
 import java.util.Random;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.jogamp.opengl.GL2;
@@ -15,10 +13,6 @@ public class Cercle implements Drawable {
     private GLAutoDrawable drawable;
     private boolean dibuixarCercle;
     private static final Random random = new Random();
-
-    private Color getRandomColor() {
-        return new Color(random.nextFloat(), random.nextFloat(), random.nextFloat());
-    }
 
     // Funciones de orden superior para generar colores aleatorios
     private Supplier<Float> randomColor = () -> random.nextFloat();
@@ -50,15 +44,13 @@ public class Cercle implements Drawable {
             // Centro del círculo
             gl.glVertex2f(-50.0f, -50.0f); // Mover hacia la izquierda y arriba
 
-            // Calcular los vértices del círculo usando Streams y lambdas
-            List<float[]> verticesList = IntStream.rangeClosed(0, segmentos)
+            // Calcular y dibujar los vértices del círculo usando Streams y lambdas
+            IntStream.rangeClosed(0, segmentos)
                     .mapToObj(i -> {
                         double angle = 2.0 * Math.PI * i / segmentos;
                         return new float[]{(float) Math.cos(angle) * 50, (float) Math.sin(angle) * 50};
                     })
-                    .collect(Collectors.toList());
-
-            verticesList.forEach(vertex -> gl.glVertex2f(vertex[0], vertex[1]));
+                    .forEach(vertex -> gl.glVertex2f(vertex[0], vertex[1]));
 
             gl.glEnd();
         }
